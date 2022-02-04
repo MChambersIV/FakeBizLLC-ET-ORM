@@ -20,8 +20,24 @@ const db = mysql.createConnection(
 );
 
 
-const primeQuestion = [
-{
+const addDeparment = [
+  {
+    type: 'input',
+    name: 'departmentName',
+    message: "What is this Deparment's name?",
+  },
+];
+
+const addRole = [
+  {
+    type: 'input',
+    name: 'first_name',
+    message: "What's your first name",
+  },
+];
+
+const addEmployee = [
+  {
   type: 'list',
   name: 'list_question',
   message: 'What would you like to do?',
@@ -32,11 +48,32 @@ const primeQuestion = [
   'Add A Role', 
   'Add An Employee',
   'Update An Employee Role'],
-  },
+  },  
 ];
 
 
-inquirer.prompt(primeQuestion).then((answers) => {
+
+
+inquirer.prompt([
+  {
+  type: 'list',
+  name: 'list_question',
+  message: 'What would you like to do?',
+  choices: ['View All Departments', 
+  'View All Roles', 
+  'View All Employees', 
+  'Add A Department', 
+  'Add A Role', 
+  'Add An Employee',
+  'Update An Employee Role'],
+  },
+  {
+    type: 'input',
+    name: 'departmentName',
+    message: "What is this Deparment's name?",
+    when: (answers) => answers.list_question === 'Add A Department'
+  },
+]).then((answers) => {
   if (answers.list_question === 'View All Departments'){
     db.query(
       'SELECT * FROM departments',
@@ -59,30 +96,29 @@ inquirer.prompt(primeQuestion).then((answers) => {
       }
     );
   } else if (answers.list_question === 'Add A Department') {
-    console.log(answers.list_question)
+    const {departmentName} = answers;
+  
+      db.query(
+        `INSERT INTO departments (name) VALUES ("${departmentName}")`,
+        function(err, results) {
+          console.log(results);
+        }
+      )
   } else if (answers.list_question === 'Add A Role') {
     console.log(answers.list_question)
   } else if (answers.list_question === 'Add An Employee') {
     console.log(answers.list_question) 
   } else if (answers.list_question === 'Update An Employee Role') {
     console.log(answers.list_question)
+  
   }
   
 });
+
+
   
 
-const table = cTable.getTable([
-  {
-    name: 'foo',
-    age: 10
-  }, {
-    name: 'bar',
-    age: 20
-  }
-]);
 
-
-console.log(table);
 
 
   
