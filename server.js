@@ -20,23 +20,6 @@ const db = mysql.createConnection(
 );
 
 
-const addDeparment = [
-  {
-    type: 'input',
-    name: 'departmentName',
-    message: "What is this Deparment's name?",
-  },
-];
-
-const addRole = [
-  {
-    type: 'input',
-    name: 'first_name',
-    message: "What's your first name",
-  },
-];
-
-
 inquirer.prompt([
   {
   type: 'list',
